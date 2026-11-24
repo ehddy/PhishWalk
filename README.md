@@ -4,12 +4,15 @@
 
 This repository contains the implementation of PhishWalk from the master's thesis
 *PhishGate: Benchmarking Phishing Website Detectors under Interaction-Gated Cloaking* (Sungkyunkwan University, 2026).
+The benchmark from the same thesis is available at [PhishGate](https://github.com/ehddy/PhishGate).
 
 ## Overview
 
 Some phishing pages show their content only after the visitor clicks, drags, scrolls, or solves a challenge. A detector that judges only the initial screenshot or HTML may never see this content.
 
 PhishWalk runs an observe-decide-act loop. At each step it observes the page, generates an **ActionPlan** (a short plan summary followed by one or more browser actions), runs those actions, and then observes the page again. It stops when it has enough evidence and returns `is_phishing` with a `reason`. It is not told which gate it is facing and has no rules written for specific gates.
+
+PhishWalk follows an **evidence-aware traversal policy**. It does not treat missing phishing indicators as evidence that a page is benign. If the decisive content may still be behind a gate, PhishWalk interacts until it reaches that content. If an interaction does not clear the gate, it checks the page changes and tries a different action.
 
 <p align="center">
   <img src="docs/figures/phishwalk-overview.svg" alt="PhishWalk observe-decide-act loop" width="90%">

@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    volumes:
+      # Create ./artifacts on the host before the first run (mkdir -p artifacts).
+      - ./artifacts:/app/artifacts
+      - ./targets.txt:/app/targets.txt:ro
+    shm_size: "1gb"
+    # Host networking so that localhost targets are reachable (Linux only).
+    network_mode: host
